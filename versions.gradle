@@ -1,0 +1,12 @@
+ext {
+    ktxVersion = '1.3.2'
+    appCompatVersion = '1.1.0'
+    hpMaterialVersion = '1.3.0'
+    constraintlayoutVersion = '2.0.4'
+    lifecycleExtensions = '2.2.0-rc03'
+    coroutineCoreVersion = '1.4.1'
+    coroutineAndroidVersion = '1.4.1'
+    gsonVersion = '2.8.6'
+    roomdbVersion = '2.2.6'
+    glideVersion = "4.10.0"
+}

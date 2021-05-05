@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="HardcodedText">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/grey2"
+            app:strokeWidth="0.5dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp">
+
+                <com.ht.exceciseinternal.base.widgets.BaseTextInputEditText
+                    android:id="@+id/exercise_tiet"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/grey3"
+                    android:textColorHint="@color/selector_text_hint_color"
+                    android:fontFamily="@font/okra_medium"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:inputType="textCapWords"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:hint="Enter exercise name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/delete_aciv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/delete_aciv"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/ic_trash_grey"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/exercise_tiet"
+                    app:layout_constraintBottom_toBottomOf="@id/exercise_tiet" />
+
+                <com.ht.exceciseinternal.base.widgets.BaseTextInputEditText
+                    android:id="@+id/rep_duration_tiet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/grey3"
+                    android:textColorHint="@color/grey1"
+                    android:fontFamily="@font/okra_regular"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:inputType="none"
+                    android:editable="false"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:hint="Exercise duration"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/rep_duration_separator_actv"
+                    app:layout_constraintBottom_toBottomOf="@id/rep_duration_separator_actv"/>
+
+                <com.ht.exceciseinternal.base.widgets.BaseTextInputEditText
+                    android:id="@+id/rep_duration_min_tiet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/selector_timer_color"
+                    android:textColorHint="@color/selector_timer_color"
+                    android:fontFamily="@font/okra_regular"
+                    android:gravity="end"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:imeOptions="actionDone"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintHorizontal_bias="1"
+                    android:hint="00"
+                    app:layout_constraintStart_toEndOf="@id/rep_duration_tiet"
+                    app:layout_constraintEnd_toStartOf="@id/rep_duration_separator_actv"
+                    app:layout_constraintTop_toTopOf="@id/rep_duration_separator_actv"
+                    app:layout_constraintBottom_toBottomOf="@id/rep_duration_separator_actv"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/rep_duration_separator_actv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/app_red"
+                    android:fontFamily="@font/okra_bold"
+                    android:text=" : "
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toEndOf="@id/rep_duration_min_tiet"
+                    app:layout_constraintEnd_toStartOf="@id/rep_duration_sec_tiet"
+                    app:layout_constraintTop_toBottomOf="@id/exercise_tiet"/>
+
+                <com.ht.exceciseinternal.base.widgets.BaseTextInputEditText
+                    android:id="@+id/rep_duration_sec_tiet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/selector_timer_color"
+                    android:textColorHint="@color/selector_timer_color"
+                    android:fontFamily="@font/okra_regular"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:imeOptions="actionDone"
+                    android:hint="00"
+                    app:layout_constraintStart_toEndOf="@id/rep_duration_separator_actv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/rep_duration_separator_actv"
+                    app:layout_constraintBottom_toBottomOf="@id/rep_duration_separator_actv"/>
+
+                <com.ht.exceciseinternal.base.widgets.BaseTextInputEditText
+                    android:id="@+id/rep_rest_tiet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/grey3"
+                    android:textColorHint="@color/grey1"
+                    android:fontFamily="@font/okra_regular"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:inputType="none"
+                    android:editable="false"
+                    android:maxLines="1"
+                    android:imeOptions="actionDone"
+                    android:hint="Rest duration"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/rep_rest_separator_actv"
+                    app:layout_constraintBottom_toBottomOf="@id/rep_rest_separator_actv"/>
+
+                <com.ht.exceciseinternal.base.widgets.BaseTextInputEditText
+                    android:id="@+id/rep_rest_min_tiet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/selector_timer_color"
+                    android:textColorHint="@color/selector_timer_color"
+                    android:fontFamily="@font/okra_regular"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:imeOptions="actionDone"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintHorizontal_bias="1"
+                    android:hint="00"
+                    app:layout_constraintStart_toEndOf="@id/rep_rest_tiet"
+                    app:layout_constraintEnd_toStartOf="@id/rep_rest_separator_actv"
+                    app:layout_constraintTop_toTopOf="@id/rep_rest_separator_actv"
+                    app:layout_constraintBottom_toBottomOf="@id/rep_rest_separator_actv"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/rep_rest_separator_actv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/app_red"
+                    android:fontFamily="@font/okra_bold"
+                    android:text=" : "
+                    android:layout_marginTop="14dp"
+                    app:layout_constraintStart_toEndOf="@id/rep_rest_min_tiet"
+                    app:layout_constraintEnd_toStartOf="@id/rep_rest_sec_tiet"
+                    app:layout_constraintTop_toBottomOf="@id/rep_duration_separator_actv"/>
+
+                <com.ht.exceciseinternal.base.widgets.BaseTextInputEditText
+                    android:id="@+id/rep_rest_sec_tiet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="26sp"
+                    android:textColor="@color/selector_timer_color"
+                    android:textColorHint="@color/selector_timer_color"
+                    android:fontFamily="@font/okra_regular"
+                    android:background="@color/white"
+                    android:cursorVisible="false"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:imeOptions="actionDone"
+                    android:hint="00"
+                    app:layout_constraintStart_toEndOf="@id/rep_rest_separator_actv"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/rep_rest_separator_actv"
+                    app:layout_constraintBottom_toBottomOf="@id/rep_rest_separator_actv"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
