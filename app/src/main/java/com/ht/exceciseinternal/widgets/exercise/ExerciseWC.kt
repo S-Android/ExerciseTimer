@@ -9,6 +9,7 @@ import kotlinx.android.parcel.Parcelize
 class ExerciseWC(val exercise: Exercise?) : BaseWC(), Parcelable {
     companion object {
         val type = ExerciseWC::class.java.hashCode()
+        const val ACTION_EXERCISE_PICK = "action_exercise_pick"
         const val ACTION_EXERCISE_UPDATE = "action_exercise_update"
         const val ACTION_EXERCISE_DELETE = "action_exercise_delete"
     }

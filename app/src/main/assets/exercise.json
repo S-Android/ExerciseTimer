@@ -1,8 +1,18 @@
-{
-  "exercises": [
-    {
-      "name": "Burpee",
-      "url":
-    }
-  ]
-}
+[
+  {
+    "name": "Burpee",
+    "imageName": "test"
+  },
+  {
+    "name": "Push-up",
+    "imageName": "test"
+  },
+  {
+    "name": "Pull-ups",
+    "imageName": "test"
+  },
+  {
+    "name": "Run",
+    "imageName": "test"
+  }
+]

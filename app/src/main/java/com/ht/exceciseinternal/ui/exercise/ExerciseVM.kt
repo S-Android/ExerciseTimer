@@ -7,31 +7,38 @@ import androidx.lifecycle.viewModelScope
 import com.ht.exceciseinternal.base.BaseVM
 import com.ht.exceciseinternal.beans.Circuit
 import com.ht.exceciseinternal.beans.Exercise
+import com.ht.exceciseinternal.beans.RawExercise
 import com.ht.exceciseinternal.database.ExerciseDataBase
 import com.ht.exceciseinternal.utility.SingleLiveEvent
+import com.ht.exceciseinternal.utility.UIUtils
 import com.ht.exceciseinternal.utility.isValid
 import com.ht.exceciseinternal.widgets.BaseWC
 import com.ht.exceciseinternal.widgets.add_excecise.AddExerciseWC
 import com.ht.exceciseinternal.widgets.circuit.CircuitWC
 import com.ht.exceciseinternal.widgets.exercise.ExerciseWC
+import com.ht.exceciseinternal.widgets.pick_exercise.PickExerciseWC
 import kotlinx.coroutines.launch
 
 class ExerciseVM(app: Application) : BaseVM(app) {
     val circuitListLiveData = MediatorLiveData<MutableList<BaseWC>>()
     val exerciseWCListLiveData = MutableLiveData<MutableList<BaseWC>>()
+    val pickExerciseWCListLiveData = MutableLiveData<MutableList<BaseWC>>()
 
     val openCircuitScreenListLiveEvent = SingleLiveEvent<Nothing>() /** open circuits */
     val openCircuitExerciseScreenLiveEvent = SingleLiveEvent<Circuit>() /** open circuit's exercise */
     val openCircuitTimerScreenLiveEvent = SingleLiveEvent<Circuit>() /** open circuit's timer */
+    val openExercisePickerScreenLiveEvent = SingleLiveEvent<Nothing>() /** open circuit's timer */
 
-    val closeCircuitExerciseScreenLiveEvent = SingleLiveEvent<Nothing>() /** open circuit's exercise */
-    val circuitNameLiveData = MutableLiveData<String>() /** circuit name */
+    val closeCircuitExerciseScreenLiveEvent = SingleLiveEvent<Nothing>() /** close circuit's exercise */
+    val closeExercisePickerScreenLiveEvent = SingleLiveEvent<Nothing>() /** close exercise picker */
+    val circuitNameLiveEvent = SingleLiveEvent<String>() /** circuit name */
     val saveIconEnableLiveEvent = SingleLiveEvent<Boolean>() /** save icon enable */
 
     val startCircuitLiveEvent = SingleLiveEvent<Circuit>()
 
 
     private var selectedCircuit: Circuit? = null
+    private var clickedExercise: Exercise? = null
 
     private val interactor: ExerciseInteractor by lazy { ExerciseInteractor() }
     private val repository: ExerciseRepository by lazy { ExerciseRepository() }
@@ -46,11 +53,15 @@ class ExerciseVM(app: Application) : BaseVM(app) {
 
             CircuitWC.ACTION_CIRCUIT_LONG_CLICK -> handleCircuitLongClick(actionData as? CircuitWC)
 
+            ExerciseWC.ACTION_EXERCISE_PICK -> handleExercisePick(actionData as? ExerciseWC)
+
             ExerciseWC.ACTION_EXERCISE_UPDATE -> handleExerciseUpdates(actionData as? ExerciseWC)
 
             ExerciseWC.ACTION_EXERCISE_DELETE -> handleExerciseDelete(actionData as? ExerciseWC)
 
             AddExerciseWC.ACTION_ADD_EXERCISE_CLICK -> handleAddExerciseClick()
+
+            PickExerciseWC.ACTION_RAW_EXERCISE_CLICK -> handlePickExerciseClick(actionData as? PickExerciseWC)
 
             else -> super.notify(actionType, actionData)
         }
@@ -109,7 +120,7 @@ class ExerciseVM(app: Application) : BaseVM(app) {
 
     private fun updateCircuitName() {
         val circuitName = selectedCircuit?.name
-        circuitNameLiveData.postValue(circuitName)
+        circuitNameLiveEvent.postValue(circuitName)
     }
 
     private fun validateSaveIconEnability() {
@@ -165,14 +176,36 @@ class ExerciseVM(app: Application) : BaseVM(app) {
                 selectedCircuit = Circuit()
             }
 
-            selectedCircuit?.apply {
-                this.name = selectedCircuit?.name
-                this.exerciseList = selectedCircuit?.exerciseList
-            }
-
             ExerciseDataBase.getInstance(getApplication()).exerciseDao().insert(selectedCircuit!!)
 
             closeCircuitExerciseScreenLiveEvent.postValue(null)
+        }
+    }
+
+    private fun handleExercisePick(exerciseWC: ExerciseWC?) {
+        clickedExercise = exerciseWC?.exercise
+
+        openExercisePickerScreenLiveEvent.postValue(null)
+    }
+
+    private fun handlePickExerciseClick(pickExerciseWC: PickExerciseWC?) {
+        viewModelScope.launch(coroutineContext) {
+            interactor.updateExercise(selectedCircuit, clickedExercise, pickExerciseWC?.rawExercise)
+
+            validateSaveIconEnability()
+
+            val list = interactor.getExerciseConfigList(selectedCircuit,this@ExerciseVM)
+            exerciseWCListLiveData.postValue(list)
+
+            closeExercisePickerScreenLiveEvent.postValue(null)
+        }
+    }
+
+    fun resumeExercisePicker() {
+        viewModelScope.launch(coroutineContext) {
+            val rawExerciseList = UIUtils.getJsonDataFromAsset<List<RawExercise>>(getApplication())
+            val pickExerciseConfigList = interactor.getPickExerciseConfigList(rawExerciseList, this@ExerciseVM)
+            pickExerciseWCListLiveData.postValue(pickExerciseConfigList)
         }
     }
 

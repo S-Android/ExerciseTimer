@@ -26,7 +26,7 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     private var circuit: Circuit? = null
 
-    fun start(circuit: Circuit?, callback: ((exerciseName: String?, isRest: Boolean) -> Unit)? = null) {
+    fun start(circuit: Circuit?, callback: ((exerciseName: String?, exerciseImageName: String?, isRest: Boolean) -> Unit)? = null) {
         this.circuit = circuit
 
         launch {
@@ -34,13 +34,13 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
         }
     }
 
-    private suspend fun startTimer(circuit: Circuit?, callback: ((exerciseName: String?, isRest: Boolean) -> Unit)? = null) {
+    private suspend fun startTimer(circuit: Circuit?, callback: ((exerciseName: String?, exerciseImageName: String?, isRest: Boolean) -> Unit)? = null) {
         binding.apply {
             for (round in 0 until (circuit?.noOfRounds ?: 0)) {
                 val exerciseList = circuit?.exerciseList ?: return
 
                 for (exercise in exerciseList) {
-                    runOnUI { callback?.invoke(exercise.name, false) }
+                    runOnUI { callback?.invoke(exercise.name, exercise.imageName, false) }
 
                     timer(exercise.exerciseDuration) { duration ->
                         val minStr = duration.min.format()
@@ -50,7 +50,7 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
                         secActv.text = secStr
                     }
 
-                    runOnUI { callback?.invoke(exercise.name, true) }
+                    runOnUI { callback?.invoke(exercise.name, exercise.imageName, true) }
                     timer(exercise.restDuration) { duration ->
                         val minStr = duration.min.format()
                         val secStr = duration.sec.format()

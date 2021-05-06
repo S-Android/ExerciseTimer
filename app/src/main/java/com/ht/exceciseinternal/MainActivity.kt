@@ -3,10 +3,7 @@ package com.ht.exceciseinternal
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.ht.exceciseinternal.base.BaseActivity
-import com.ht.exceciseinternal.ui.exercise.CircuitFragment
-import com.ht.exceciseinternal.ui.exercise.ExerciseFragment
-import com.ht.exceciseinternal.ui.exercise.ExerciseVM
-import com.ht.exceciseinternal.ui.exercise.TimerFragment
+import com.ht.exceciseinternal.ui.exercise.*
 
 class MainActivity : BaseActivity() {
     private lateinit var viewModel: ExerciseVM
@@ -42,6 +39,14 @@ class MainActivity : BaseActivity() {
         viewModel.openCircuitTimerScreenLiveEvent.observe(this) { circuit ->
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, TimerFragment.newInstance(circuit))
+                .addToBackStack(null)
+                .commit()
+        }
+
+        /** pick exercise screen */
+        viewModel.openExercisePickerScreenLiveEvent.observe(this) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, PickExerciseFragment.newInstance())
                 .addToBackStack(null)
                 .commit()
         }

@@ -1,10 +1,11 @@
 package com.ht.exceciseinternal.ui.exercise
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ht.exceciseinternal.R
@@ -29,6 +30,23 @@ class ExerciseFragment : BaseFragment() {
     private lateinit var viewModel: ExerciseVM
     private val baseAdapter = BaseAdapter()
 
+    private val circuitNameTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+        override fun afterTextChanged(p0: Editable?) {
+            viewModel.onCircuitNameChange(p0?.toString())
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(activity!!).get(ExerciseVM::class.java)
+
+        val circuit = arguments?.getParcelable<Circuit>(KEY_CIRCUIT)
+        viewModel.resumeCircuitExercise(circuit)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = ExerciseFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -41,12 +59,7 @@ class ExerciseFragment : BaseFragment() {
 
         setUpClickListeners()
 
-        viewModel = ViewModelProvider(activity!!).get(ExerciseVM::class.java)
-
         setUpObservers()
-
-        val circuit = arguments?.getParcelable<Circuit>(KEY_CIRCUIT)
-        viewModel.resumeCircuitExercise(circuit)
     }
 
     private fun setUpUI() {
@@ -61,9 +74,7 @@ class ExerciseFragment : BaseFragment() {
 
     private fun setUpClickListeners() {
         binding.apply {
-            circuitTiet.addTextChangedListener {
-                viewModel.onCircuitNameChange(it?.toString())
-            }
+            circuitTiet.addTextChangedListener(circuitNameTextWatcher)
 
             saveAciv.setOnClickListener {
                 viewModel.handleSaveCircuitClick()
@@ -73,7 +84,7 @@ class ExerciseFragment : BaseFragment() {
 
     private fun setUpObservers() {
         /** circuit name */
-        viewModel.circuitNameLiveData.observe(viewLifecycleOwner) {
+        viewModel.circuitNameLiveEvent.observe(viewLifecycleOwner) {
             binding.circuitTiet.setText(it)
         }
 

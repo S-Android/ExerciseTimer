@@ -5,6 +5,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import com.ht.exceciseinternal.databinding.ExerciseAdapterItemBinding
 import com.ht.exceciseinternal.widgets.BaseWV
 
@@ -18,6 +19,11 @@ class ExerciseWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: In
         addView(binding.root)
     }
 
+    private val exerciseNameFocusListener = OnFocusChangeListener { view, hasFocus ->
+        if (hasFocus) {
+            this@ExerciseWV.config?.vmNotifier?.notify(ExerciseWC.ACTION_EXERCISE_PICK, config)
+        }
+    }
     private val exerciseNameWatcher = object : TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -107,11 +113,14 @@ class ExerciseWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: In
 
             /** name */
             exerciseTiet.apply {
-                removeTextChangedListener(exerciseNameWatcher)
+                onFocusChangeListener = null
+//                removeTextChangedListener(exerciseNameWatcher)
 
                 setText(exercise.name ?: "")
 
-                addTextChangedListener(exerciseNameWatcher)
+//                addTextChangedListener(exerciseNameWatcher)
+
+                onFocusChangeListener = exerciseNameFocusListener
             }
 
             /** exercise min */

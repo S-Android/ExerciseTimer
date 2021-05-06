@@ -8,15 +8,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ht.exceciseinternal.base.BaseFragment
 import com.ht.exceciseinternal.base.BaseAdapter
-import com.ht.exceciseinternal.databinding.CircuitFragmentBinding
+import com.ht.exceciseinternal.databinding.PickExerciseFragmentBinding
 
-class CircuitFragment : BaseFragment() {
+class PickExerciseFragment : BaseFragment() {
 
     companion object {
-        fun newInstance() = CircuitFragment()
+        fun newInstance() = PickExerciseFragment()
     }
 
-    private lateinit var binding: CircuitFragmentBinding
+    private lateinit var binding: PickExerciseFragmentBinding
     private lateinit var viewModel: ExerciseVM
     private val baseAdapter = BaseAdapter()
 
@@ -24,10 +24,12 @@ class CircuitFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(activity!!).get(ExerciseVM::class.java)
+
+        viewModel.resumeExercisePicker()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = CircuitFragmentBinding.inflate(inflater, container, false)
+        binding = PickExerciseFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -36,34 +38,28 @@ class CircuitFragment : BaseFragment() {
 
         setUpUI()
 
-        setUpOnClickListeners()
-
         setUpObservers()
     }
 
     private fun setUpUI() {
         binding.apply {
             /** recycler view */
-            circuitRv.apply {
+            pickExerciseRv.apply {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = baseAdapter
             }
         }
     }
 
-    private fun setUpOnClickListeners() {
-        binding.apply {
-            /** fab click */
-            addFab.setOnClickListener {
-                viewModel.onFabClick()
-            }
-        }
-    }
-
     private fun setUpObservers() {
-        /** circuit observer */
-        viewModel.circuitListLiveData.observe(viewLifecycleOwner) {
+        /** raw exercise observer */
+        viewModel.pickExerciseWCListLiveData.observe(viewLifecycleOwner) {
             baseAdapter.submitList(it)
+        }
+
+        /** back press */
+        viewModel.closeExercisePickerScreenLiveEvent.observe(viewLifecycleOwner) {
+            activity?.onBackPressed()
         }
     }
 }

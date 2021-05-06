@@ -13,6 +13,8 @@ import com.ht.exceciseinternal.widgets.circuit.CircuitWC
 import com.ht.exceciseinternal.widgets.circuit.CircuitWV
 import com.ht.exceciseinternal.widgets.exercise.ExerciseWC
 import com.ht.exceciseinternal.widgets.exercise.ExerciseWV
+import com.ht.exceciseinternal.widgets.pick_exercise.PickExerciseWC
+import com.ht.exceciseinternal.widgets.pick_exercise.PickExerciseWV
 
 
 class BaseAdapter:  ListAdapter<BaseWC, BaseWVH<BaseWV<BaseWC>, BaseWC>>(DiffCallback()) {
@@ -35,6 +37,7 @@ class BaseAdapter:  ListAdapter<BaseWC, BaseWVH<BaseWV<BaseWC>, BaseWC>>(DiffCal
         CircuitWC.type -> CircuitWV(context)
         ExerciseWC.type -> ExerciseWV(context)
         AddExerciseWC.type -> AddExerciseWV(context)
+        PickExerciseWC.type -> PickExerciseWV(context)
         else -> null
     }
 

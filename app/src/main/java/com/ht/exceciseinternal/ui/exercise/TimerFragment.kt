@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
 import com.ht.exceciseinternal.base.BaseFragment
 import com.ht.exceciseinternal.beans.Circuit
 import com.ht.exceciseinternal.databinding.TimerFragmentBinding
+import com.ht.exceciseinternal.utility.getDrawable
 
 class TimerFragment : BaseFragment() {
 
@@ -25,6 +25,15 @@ class TimerFragment : BaseFragment() {
     private lateinit var binding: TimerFragmentBinding
     private lateinit var viewModel: ExerciseVM
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(activity!!).get(ExerciseVM::class.java)
+
+        val circuit = arguments?.getParcelable<Circuit>(KEY_CIRCUIT)
+        viewModel.resumeCircuitTimer(circuit)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = TimerFragmentBinding.inflate(inflater, container, false)
         return binding.root
@@ -37,12 +46,7 @@ class TimerFragment : BaseFragment() {
 
         setUpOnClickListeners()
 
-        viewModel = ViewModelProvider(activity!!).get(ExerciseVM::class.java)
-
         setUpObservers()
-
-        val circuit = arguments?.getParcelable<Circuit>(KEY_CIRCUIT)
-        viewModel.resumeCircuitTimer(circuit)
     }
 
     private fun setUpUI() {
@@ -70,11 +74,12 @@ class TimerFragment : BaseFragment() {
             circuitActv.text = circuit?.name
 
             /** timer */
-            timer.start(circuit) { exerciseName, isRest ->
+            timer.start(circuit) { exerciseName, exerciseImageName, isRest ->
                 /** exercise image */
-                Glide.with(activity!!)
-                        .load("https://c4.wallpaperflare.com/wallpaper/206/268/839/pose-muscle-muscle-rod-press-hd-wallpaper-preview.jpg")
-                        .into(exerciseAciv)
+                val drawable = exerciseImageName.getDrawable()
+                if (drawable != null) {
+                    exerciseAciv.setImageDrawable(drawable)
+                }
 
                 exerciseActv.text = exerciseName
                 typeActv.text = if (isRest) "REST" else "EXERCISE"
