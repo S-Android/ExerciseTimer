@@ -22,7 +22,8 @@ data class Exercise(
     var name: String? = null,
     var imageName: String? = null,
     var exerciseDuration: Duration = Duration(),
-    var restDuration: Duration = Duration()
+    var restDuration: Duration = Duration(),
+    var exerciseAudio: String? = null
 ): Parcelable
 
 @Parcelize
@@ -35,4 +36,5 @@ data class Duration(
 data class RawExercise(
     @SerializedName("name") var name: String? = null,
     @SerializedName("imageName") val imageName: String? = null,
+    @SerializedName("audio") val audio: String? = null,
 ): Parcelable

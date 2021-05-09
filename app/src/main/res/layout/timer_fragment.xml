@@ -12,7 +12,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="20dp"
+            app:cardCornerRadius="0dp"
             app:cardElevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,11 +45,11 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/circuit_actv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:textSize="45sp"
-                    android:textColor="@color/grey3"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
                     android:fontFamily="@font/okra_medium"
                     tools:text="Circuit name"
                     app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:textSize="40sp"
-                    android:textColor="@color/grey3"
+                    android:textColor="@color/white"
                     android:fontFamily="@font/okra_regular"
                     tools:text="Exercise name"
                     app:layout_constraintStart_toStartOf="parent"
@@ -75,9 +75,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:textSize="30sp"
-                    android:textColor="@color/grey3"
+                    android:textColor="@color/white"
                     android:fontFamily="@font/okra_regular"
                     tools:text="REST"
+                    tools:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/exercise_actv"/>
@@ -88,8 +90,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="30dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

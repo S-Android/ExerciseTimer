@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.ht.exceciseinternal.R
 import com.ht.exceciseinternal.base.BaseFragment
 import com.ht.exceciseinternal.beans.Circuit
 import com.ht.exceciseinternal.databinding.TimerFragmentBinding
@@ -75,14 +77,15 @@ class TimerFragment : BaseFragment() {
 
             /** timer */
             timer.start(circuit) { exerciseName, exerciseImageName, isRest ->
-                /** exercise image */
-                val drawable = exerciseImageName.getDrawable()
-                if (drawable != null) {
-                    exerciseAciv.setImageDrawable(drawable)
-                }
+                /** exercise name */
+                exerciseActv.text = if (isRest) "" else exerciseName
 
-                exerciseActv.text = exerciseName
-                typeActv.text = if (isRest) "REST" else "EXERCISE"
+                /** exercise image */
+                val drawable = if (isRest) ContextCompat.getDrawable(context!!, R.mipmap.rest_bg) else exerciseImageName.getDrawable()
+                if (drawable != null) { exerciseAciv.setImageDrawable(drawable) }
+
+//                /** type */
+//                typeActv.text = if (isRest) "REST" else "EXERCISE"
             }
         }
     }

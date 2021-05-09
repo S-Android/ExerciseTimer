@@ -115,3 +115,13 @@ fun Long?.format(): String? {
 
     return returnValue
 }
+
+fun String?.getRawPath(): String? {
+    this ?: return null
+
+    return try {
+        "android.resource://com.ht.exceciseinternal/raw/${this}"
+    } catch (ex: Exception) {
+        null
+    }
+}

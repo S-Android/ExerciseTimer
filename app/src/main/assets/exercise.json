@@ -1,18 +1,22 @@
 [
   {
     "name": "Burpee",
-    "imageName": "test"
+    "imageName": "burpee",
+    "audio": "burpee"
   },
   {
     "name": "Push-up",
-    "imageName": "test"
+    "imageName": "push_up",
+    "audio": "push_up"
   },
   {
-    "name": "Pull-ups",
-    "imageName": "test"
+    "name": "Pull-up",
+    "imageName": "pull_up",
+    "audio": "pull_up"
   },
   {
     "name": "Run",
-    "imageName": "test"
+    "imageName": "run",
+    "audio": "run"
   }
 ]

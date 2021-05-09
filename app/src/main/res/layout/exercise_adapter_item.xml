@@ -28,7 +28,7 @@
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp">
 
-                <com.ht.exceciseinternal.base.widgets.BaseTextInputEditText
+                <com.ht.exceciseinternal.base.widgets.organism.BaseTextView
                     android:id="@+id/exercise_tiet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

@@ -5,8 +5,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import com.ht.exceciseinternal.databinding.ExerciseAdapterItemBinding
+import com.ht.exceciseinternal.utility.format
 import com.ht.exceciseinternal.widgets.BaseWV
 
 class ExerciseWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0): BaseWV<ExerciseWC>(context, attrs, defStyleAttr) {
@@ -19,21 +19,8 @@ class ExerciseWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: In
         addView(binding.root)
     }
 
-    private val exerciseNameFocusListener = OnFocusChangeListener { view, hasFocus ->
-        if (hasFocus) {
-            this@ExerciseWV.config?.vmNotifier?.notify(ExerciseWC.ACTION_EXERCISE_PICK, config)
-        }
-    }
-    private val exerciseNameWatcher = object : TextWatcher {
-        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-        override fun afterTextChanged(editable: Editable?) {
-            val copyConfig = this@ExerciseWV.config.let { copyConfig ->
-                copyConfig?.exercise?.name = editable?.toString()
-                copyConfig
-            }
-            this@ExerciseWV.config?.vmNotifier?.notify(ExerciseWC.ACTION_EXERCISE_UPDATE, copyConfig)
-        }
+    private val exerciseNameClickListener = OnClickListener {
+        this@ExerciseWV.config?.vmNotifier?.notify(ExerciseWC.ACTION_EXERCISE_PICK, config)
     }
 
     private val exerciseMinWatcher = object : TextWatcher {
@@ -113,21 +100,18 @@ class ExerciseWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: In
 
             /** name */
             exerciseTiet.apply {
-                onFocusChangeListener = null
-//                removeTextChangedListener(exerciseNameWatcher)
+                setOnClickListener(null)
 
-                setText(exercise.name ?: "")
+                text = exercise.name ?: ""
 
-//                addTextChangedListener(exerciseNameWatcher)
-
-                onFocusChangeListener = exerciseNameFocusListener
+                setOnClickListener(exerciseNameClickListener)
             }
 
             /** exercise min */
             repDurationMinTiet.apply {
                 removeTextChangedListener(exerciseMinWatcher)
 
-                setText(exercise.exerciseDuration.min?.toString() ?: "")
+                setText(exercise.exerciseDuration.min?.format() ?: "")
 
                 addTextChangedListener(exerciseMinWatcher)
             }
@@ -136,7 +120,7 @@ class ExerciseWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: In
             repDurationSecTiet.apply {
                 removeTextChangedListener(exerciseSecWatcher)
 
-                setText(exercise.exerciseDuration.sec?.toString() ?: "")
+                setText(exercise.exerciseDuration.sec?.format() ?: "")
 
                 addTextChangedListener(exerciseSecWatcher)
             }
@@ -145,7 +129,7 @@ class ExerciseWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: In
             repRestMinTiet.apply {
                 removeTextChangedListener(restMinWatcher)
 
-                setText(exercise.restDuration.min?.toString() ?: "")
+                setText(exercise.restDuration.min?.format() ?: "")
 
                 addTextChangedListener(restMinWatcher)
             }
@@ -154,7 +138,7 @@ class ExerciseWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: In
             repRestSecTiet.apply {
                 removeTextChangedListener(restSecWatcher)
 
-                setText(exercise.restDuration.sec?.toString() ?: "")
+                setText(exercise.restDuration.sec?.format() ?: "")
 
                 addTextChangedListener(restSecWatcher)
             }

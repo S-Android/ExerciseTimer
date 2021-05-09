@@ -1,6 +1,9 @@
 package com.ht.exceciseinternal.base.widgets.organism
 
 import android.content.Context
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -8,6 +11,7 @@ import com.ht.exceciseinternal.beans.Circuit
 import com.ht.exceciseinternal.beans.Duration
 import com.ht.exceciseinternal.databinding.TimerBinding
 import com.ht.exceciseinternal.utility.format
+import com.ht.exceciseinternal.utility.getRawPath
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
@@ -20,6 +24,11 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
         get() = Dispatchers.IO + job + CoroutineExceptionHandler { coroutineContext, throwable ->
             println(throwable.printStackTrace())
         }
+
+    private val mediaPlayer =  MediaPlayer().apply {
+        setAudioStreamType(AudioManager.STREAM_MUSIC)
+    }
+
     init {
         binding
     }
@@ -39,16 +48,29 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
             for (round in 0 until (circuit?.noOfRounds ?: 0)) {
                 val exerciseList = circuit?.exerciseList ?: return
 
-                for (exercise in exerciseList) {
-                    runOnUI { callback?.invoke(exercise.name, exercise.imageName, false) }
+                var audioDuration = prepareMedia(exerciseList.getOrNull(0)?.exerciseAudio)
+                if (audioDuration != null) {
+                    mediaPlayer.start()
+                    delay(audioDuration)
+                }
 
+                for ((index, exercise) in exerciseList.withIndex()) {
+                    audioDuration = prepareMedia("rest")
+
+                    runOnUI { callback?.invoke(exercise.name, exercise.imageName, false) }
                     timer(exercise.exerciseDuration) { duration ->
                         val minStr = duration.min.format()
                         val secStr = duration.sec.format()
 
                         minActv.text = minStr
                         secActv.text = secStr
+
+                        if (duration.min == 0L && duration.sec.isLessThanEquals(audioDuration)) {
+                            mediaPlayer.start()
+                        }
                     }
+
+                    audioDuration = prepareMedia(exerciseList.getOrNull(index + 1)?.exerciseAudio)
 
                     runOnUI { callback?.invoke(exercise.name, exercise.imageName, true) }
                     timer(exercise.restDuration) { duration ->
@@ -57,6 +79,10 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
                         minActv.text = minStr
                         secActv.text = secStr
+
+                        if (duration.min == 0L && duration.sec.isLessThanEquals(audioDuration)) {
+                            mediaPlayer.start()
+                        }
                     }
                 }
             }
@@ -86,7 +112,23 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
             block()
         }
     }
+
+    private fun prepareMedia(path: String?): Long? {
+        return try {
+            mediaPlayer.reset()
+            mediaPlayer.setDataSource(context, Uri.parse(path.getRawPath()), null)
+            mediaPlayer.prepare()
+
+            return mediaPlayer.duration.toLong()
+        } catch (ex: Exception) {
+            null
+        }
+    }
+
+    private fun Long?.isLessThanEquals(duration: Long?) = (this != null && duration != null && this * 1000 <= duration)
+
     fun stop() {
         job.cancel()
+        mediaPlayer.stop()
     }
 }

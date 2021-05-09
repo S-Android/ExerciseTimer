@@ -83,6 +83,7 @@ class ExerciseInteractor: BaseInteractor() {
                     exercise.apply {
                         name = rawExercise.name
                         imageName = rawExercise.imageName
+                        exerciseAudio = rawExercise.audio
                     }
                     break
                 }
