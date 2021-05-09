@@ -82,14 +82,14 @@ class ExerciseVM(app: Application) : BaseVM(app) {
     private fun handleCircuitClick(circuitWC: CircuitWC?) {
         val circuit = circuitWC?.circuit
         if (circuit != null) {
-            openCircuitExerciseScreenLiveEvent.postValue(circuit)
+            openCircuitTimerScreenLiveEvent.postValue(circuit)
         }
     }
 
     private fun handleCircuitLongClick(circuitWC: CircuitWC?) {
         val circuit = circuitWC?.circuit
         if (circuit != null) {
-            openCircuitTimerScreenLiveEvent.postValue(circuit)
+            openCircuitExerciseScreenLiveEvent.postValue(circuit)
         }
     }
 
