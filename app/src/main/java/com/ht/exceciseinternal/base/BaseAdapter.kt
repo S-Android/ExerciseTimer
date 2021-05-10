@@ -29,8 +29,7 @@ class BaseAdapter:  ListAdapter<BaseWC, BaseWVH<BaseWV<BaseWC>, BaseWC>>(DiffCal
 
     override fun onBindViewHolder(holder: BaseWVH<BaseWV<BaseWC>, BaseWC>, position: Int) {
         val item = getItem(position)
-        val baseWC = item as BaseWC
-        holder.updateView(baseWC)
+        holder.updateView(item)
     }
 
     private fun getWV(viewType: Int, context: Context): BaseWV<*>? = when (viewType) {
