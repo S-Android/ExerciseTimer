@@ -10,31 +10,38 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "exercise_table")
 @Parcelize
 data class Circuit(
-    @PrimaryKey(autoGenerate = false) val circuitId: Long = uniqueId,
-    var name: String? = null,
-    val noOfRounds: Int = 1,
-    var exerciseList: MutableList<Exercise>? = null
-): Parcelable
+        @PrimaryKey(autoGenerate = false) val circuitId: Long = uniqueId,
+        var name: String? = null,
+        val noOfRounds: Int = 1,
+        var exerciseList: MutableList<Exercise>? = null
+) : Parcelable
 
 @Parcelize
 data class Exercise(
-    val exerciseId: Long = uniqueId,
-    var name: String? = null,
-    var imageName: String? = null,
-    var exerciseDuration: Duration = Duration(),
-    var restDuration: Duration = Duration(),
-    var exerciseAudio: String? = null
-): Parcelable
+        val exerciseId: Long = uniqueId,
+        var name: String? = null,
+        var imageName: String? = null,
+        var exerciseDuration: Duration = Duration(),
+        var restDuration: Duration = Duration(),
+        var exerciseAudio: String? = null
+) : Parcelable
 
 @Parcelize
 data class Duration(
-    var min: Long? = null,
-    var sec: Long? = null
-): Parcelable
+        var min: Long? = null,
+        var sec: Long? = null
+) : Parcelable
 
 @Parcelize
 data class RawExercise(
-    @SerializedName("name") var name: String? = null,
-    @SerializedName("imageName") val imageName: String? = null,
-    @SerializedName("audio") val audio: String? = null,
-): Parcelable
+        @SerializedName("name") var name: String? = null,
+        @SerializedName("imageName") val imageName: String? = null,
+        @SerializedName("audio") val audio: String? = null,
+) : Parcelable
+
+@Entity(tableName = "my_activity_table")
+@Parcelize
+data class MyActivity(
+        var date: String? = null,
+        val circuits: List<Circuit>? = null,
+) : Parcelable

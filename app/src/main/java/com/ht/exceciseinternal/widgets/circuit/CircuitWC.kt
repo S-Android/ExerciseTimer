@@ -12,6 +12,7 @@ class CircuitWC(val circuit: Circuit?) : BaseWC(), Parcelable {
         val type = CircuitWC::class.java.hashCode()
         const val ACTION_CIRCUIT_CLICK = "action_circuit_click"
         const val ACTION_CIRCUIT_LONG_CLICK = "action_circuit_long_click"
+        const val ACTION_CIRCUIT_DELETE = "action_circuit_delete"
     }
 
     override fun copy() = CircuitWC(circuit?.copy()).apply { copyValuesIntoSuper(this@CircuitWC) }

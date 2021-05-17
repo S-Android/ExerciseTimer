@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import com.ht.exceciseinternal.databinding.CircuitAdapterItemBinding
 import com.ht.exceciseinternal.widgets.BaseWV
+import com.ht.exceciseinternal.widgets.exercise.ExerciseWC
 
 class CircuitWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0): BaseWV<CircuitWC>(context, attrs, defStyleAttr) {
     private val binding: CircuitAdapterItemBinding by lazy {
@@ -29,6 +30,11 @@ class CircuitWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int
             main.setOnLongClickListener {
                 config.vmNotifier?.notify(CircuitWC.ACTION_CIRCUIT_LONG_CLICK, config)
                 true
+            }
+
+            /** delete */
+            deleteAciv.setOnClickListener {
+                config.vmNotifier?.notify(CircuitWC.ACTION_CIRCUIT_DELETE, config)
             }
         }
     }

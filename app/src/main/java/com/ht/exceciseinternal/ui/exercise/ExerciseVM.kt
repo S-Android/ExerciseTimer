@@ -53,6 +53,8 @@ class ExerciseVM(app: Application) : BaseVM(app) {
 
             CircuitWC.ACTION_CIRCUIT_LONG_CLICK -> handleCircuitLongClick(actionData as? CircuitWC)
 
+            CircuitWC.ACTION_CIRCUIT_DELETE -> handleCircuitDelete(actionData as? CircuitWC)
+
             ExerciseWC.ACTION_EXERCISE_PICK -> handleExercisePick(actionData as? ExerciseWC)
 
             ExerciseWC.ACTION_EXERCISE_UPDATE -> handleExerciseUpdates(actionData as? ExerciseWC)
@@ -172,13 +174,14 @@ class ExerciseVM(app: Application) : BaseVM(app) {
 
     fun handleSaveCircuitClick() {
         viewModelScope.launch(coroutineContext) {
-            if (selectedCircuit == null) {
-                selectedCircuit = Circuit()
-            }
-
             ExerciseDataBase.getInstance(getApplication()).exerciseDao().insert(selectedCircuit!!)
-
             closeCircuitExerciseScreenLiveEvent.postValue(null)
+        }
+    }
+
+    private fun handleCircuitDelete(circuitWC: CircuitWC?) {
+        viewModelScope.launch(coroutineContext) {
+            ExerciseDataBase.getInstance(getApplication()).exerciseDao().delete(circuitWC?.circuit!!)
         }
     }
 

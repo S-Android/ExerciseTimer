@@ -29,15 +29,27 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/circuit_name_actv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     android:textSize="18sp"
                     android:textColor="@color/grey3"
                     android:fontFamily="@font/okra_semibold"
                     tools:text="Circuit One"
+                    android:maxLines="1"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/delete_aciv"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/delete_aciv"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:padding="4dp"
+                    app:srcCompat="@drawable/ic_trash_grey"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@id/circuit_name_actv"
+                    app:layout_constraintBottom_toBottomOf="@id/circuit_name_actv"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
