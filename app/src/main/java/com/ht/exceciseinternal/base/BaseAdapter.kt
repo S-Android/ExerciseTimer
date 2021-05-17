@@ -13,6 +13,8 @@ import com.ht.exceciseinternal.widgets.circuit.CircuitWC
 import com.ht.exceciseinternal.widgets.circuit.CircuitWV
 import com.ht.exceciseinternal.widgets.exercise.ExerciseWC
 import com.ht.exceciseinternal.widgets.exercise.ExerciseWV
+import com.ht.exceciseinternal.widgets.my_activity.MyActivityWC
+import com.ht.exceciseinternal.widgets.my_activity.MyActivityWV
 import com.ht.exceciseinternal.widgets.pick_exercise.PickExerciseWC
 import com.ht.exceciseinternal.widgets.pick_exercise.PickExerciseWV
 
@@ -37,6 +39,7 @@ class BaseAdapter:  ListAdapter<BaseWC, BaseWVH<BaseWV<BaseWC>, BaseWC>>(DiffCal
         ExerciseWC.type -> ExerciseWV(context)
         AddExerciseWC.type -> AddExerciseWV(context)
         PickExerciseWC.type -> PickExerciseWV(context)
+        MyActivityWC.type -> MyActivityWV(context)
         else -> null
     }
 

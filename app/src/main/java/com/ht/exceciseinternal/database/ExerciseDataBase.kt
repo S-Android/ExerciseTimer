@@ -6,8 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.ht.exceciseinternal.beans.Circuit
+import com.ht.exceciseinternal.beans.MyActivity
 
-@Database(entities = [Circuit::class], version = 1)
+@Database(entities = [Circuit::class, MyActivity::class], version = 1)
 @TypeConverters(ExerciseTypeConverter::class)
 abstract class ExerciseDataBase : RoomDatabase() {
 
