@@ -24,8 +24,8 @@ interface ExerciseDao {
     fun getCircuits() : LiveData<List<Circuit>>
 
     @Query("select * from my_activity_table order by date")
-    fun getMyActivity() : LiveData<List<MyActivity>>
+    fun getMyActivities() : LiveData<List<MyActivity>>
 
-    @Query("select * from my_activity_table order by date")
-    fun getMyActivitySync() : List<MyActivity>
+    @Query("select * from my_activity_table where date = :date")
+    fun getMyActivitySync(date: Long) : MyActivity?
 }

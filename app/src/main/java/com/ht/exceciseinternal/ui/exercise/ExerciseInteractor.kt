@@ -4,11 +4,13 @@ import com.ht.exceciseinternal.base.BaseInteractor
 import com.ht.exceciseinternal.base.VMNotifier
 import com.ht.exceciseinternal.beans.Circuit
 import com.ht.exceciseinternal.beans.Exercise
+import com.ht.exceciseinternal.beans.MyActivity
 import com.ht.exceciseinternal.beans.RawExercise
 import com.ht.exceciseinternal.widgets.BaseWC
 import com.ht.exceciseinternal.widgets.add_excecise.AddExerciseWC
 import com.ht.exceciseinternal.widgets.circuit.CircuitWC
 import com.ht.exceciseinternal.widgets.exercise.ExerciseWC
+import com.ht.exceciseinternal.widgets.my_activity.MyActivityWC
 import com.ht.exceciseinternal.widgets.pick_exercise.PickExerciseWC
 
 
@@ -89,5 +91,15 @@ class ExerciseInteractor: BaseInteractor() {
                 }
             }
         }
+    }
+
+    fun getMyActivityConfigList(myActivityList: List<MyActivity>?, vmNotifier: VMNotifier): MutableList<BaseWC> {
+        val returnValue = mutableListOf<BaseWC>()
+
+        for (activity in myActivityList ?: mutableListOf()) {
+            returnValue.add(MyActivityWC(activity).apply { this.vmNotifier = vmNotifier })
+        }
+
+        return returnValue
     }
 }

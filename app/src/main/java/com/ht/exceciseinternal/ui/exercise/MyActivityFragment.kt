@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ht.exceciseinternal.base.BaseAdapter
 import com.ht.exceciseinternal.base.BaseFragment
 import com.ht.exceciseinternal.databinding.MyActivityFragmentBinding
 
@@ -37,6 +36,8 @@ class MyActivityFragment : BaseFragment() {
         setUpUI()
 
         setUpObservers()
+
+
     }
 
     private fun setUpUI() {
@@ -52,7 +53,7 @@ class MyActivityFragment : BaseFragment() {
     private fun setUpObservers() {
         /** circuit observer */
         viewModel.myActivityListLiveData.observe(viewLifecycleOwner) {
-            myActivityParentAdapter.submitList(it)
+            println(it?.size)
         }
     }
 }

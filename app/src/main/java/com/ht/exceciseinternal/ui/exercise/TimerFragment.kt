@@ -59,7 +59,10 @@ class TimerFragment : BaseFragment() {
 
     private fun setUpOnClickListeners() {
         binding.apply {
-
+            /** timer finish */
+            timer.onTimerFinish = {
+                viewModel.saveActivity()
+            }
         }
     }
 
@@ -83,9 +86,6 @@ class TimerFragment : BaseFragment() {
                 /** exercise image */
                 val drawable = if (isRest) ContextCompat.getDrawable(context!!, R.mipmap.rest_bg) else exerciseImageName.getDrawable()
                 if (drawable != null) { exerciseAciv.setImageDrawable(drawable) }
-
-//                /** type */
-//                typeActv.text = if (isRest) "REST" else "EXERCISE"
             }
         }
     }

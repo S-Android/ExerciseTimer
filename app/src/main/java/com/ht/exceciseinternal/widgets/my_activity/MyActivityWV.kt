@@ -20,7 +20,7 @@ class MyActivityWV(context: Context, attrs: AttributeSet? = null, defStyleAttr: 
         super.updateView(config)
 
         binding.apply {
-           myActivityCircuitTiet.text = config.circuit?.name
+           myActivityCircuitTiet.text = config.myActivity?.circuits?.getOrNull(0)?.name
 
         }
     }

@@ -29,6 +29,8 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
         setAudioStreamType(AudioManager.STREAM_MUSIC)
     }
 
+    var onTimerFinish: (() -> Unit)? = null
+
     init {
         binding
     }
@@ -40,6 +42,8 @@ open class Timer @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         launch {
             startTimer(circuit, callback)
+
+            withContext(Dispatchers.Main) { onTimerFinish?.invoke() }
         }
     }
 

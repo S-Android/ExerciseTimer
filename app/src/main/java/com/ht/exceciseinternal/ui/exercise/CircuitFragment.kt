@@ -57,6 +57,11 @@ class CircuitFragment : BaseFragment() {
             addFab.setOnClickListener {
                 viewModel.onFabClick()
             }
+
+            /** profile click */
+            myActivityAciv.setOnClickListener {
+                viewModel.onMyActivityClick()
+            }
         }
     }
 

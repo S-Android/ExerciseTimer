@@ -50,5 +50,13 @@ class MainActivity : BaseActivity() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        /** open my-activity screen */
+        viewModel.openMyActivityScreenLiveEvent.observe(this) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, MyActivityFragment.newInstance())
+                    .addToBackStack(null)
+                    .commit()
+        }
     }
 }

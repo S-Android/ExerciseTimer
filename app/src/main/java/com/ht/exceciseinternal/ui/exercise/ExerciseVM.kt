@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.ht.exceciseinternal.base.BaseVM
 import com.ht.exceciseinternal.beans.Circuit
 import com.ht.exceciseinternal.beans.Exercise
+import com.ht.exceciseinternal.beans.MyActivity
 import com.ht.exceciseinternal.beans.RawExercise
 import com.ht.exceciseinternal.database.ExerciseDataBase
 import com.ht.exceciseinternal.utility.SingleLiveEvent
 import com.ht.exceciseinternal.utility.UIUtils
+import com.ht.exceciseinternal.utility.Utils
 import com.ht.exceciseinternal.utility.isValid
 import com.ht.exceciseinternal.widgets.BaseWC
 import com.ht.exceciseinternal.widgets.add_excecise.AddExerciseWC
@@ -28,6 +30,7 @@ class ExerciseVM(app: Application) : BaseVM(app) {
     val openCircuitExerciseScreenLiveEvent = SingleLiveEvent<Circuit>() /** open circuit's exercise */
     val openCircuitTimerScreenLiveEvent = SingleLiveEvent<Circuit>() /** open circuit's timer */
     val openExercisePickerScreenLiveEvent = SingleLiveEvent<Nothing>() /** open circuit's timer */
+    val openMyActivityScreenLiveEvent = SingleLiveEvent<Nothing>() /** open circuit's timer */
 
     val closeCircuitExerciseScreenLiveEvent = SingleLiveEvent<Nothing>() /** close circuit's exercise */
     val closeExercisePickerScreenLiveEvent = SingleLiveEvent<Nothing>() /** close exercise picker */
@@ -97,6 +100,10 @@ class ExerciseVM(app: Application) : BaseVM(app) {
 
     fun onFabClick() {
         openCircuitExerciseScreenLiveEvent.postValue(null)
+    }
+
+    fun onMyActivityClick() {
+        openMyActivityScreenLiveEvent.postValue(null)
     }
 
     fun resumeCircuitExercise(circuit: Circuit?) {
@@ -213,6 +220,28 @@ class ExerciseVM(app: Application) : BaseVM(app) {
     }
 
     fun resumeCircuitTimer(circuit: Circuit?) {
+        selectedCircuit = circuit
+
         startCircuitLiveEvent.postValue(circuit)
+    }
+
+    fun saveActivity() {
+        viewModelScope.launch(coroutineContext) {
+            val currentDateMillis = Utils.getCurrentDateMillis()
+            val circuit = selectedCircuit
+
+            if (currentDateMillis != null && circuit != null) {
+                val exerciseDao = ExerciseDataBase.getInstance(getApplication()).exerciseDao()
+
+                var myActivity = exerciseDao.getMyActivitySync(currentDateMillis)
+                if (myActivity == null) {
+                    myActivity = MyActivity(currentDateMillis, circuits = arrayListOf(circuit))
+                } else {
+                    myActivity.circuits?.add(circuit)
+                }
+
+                exerciseDao.insert(myActivity)
+            }
+        }
     }
 }

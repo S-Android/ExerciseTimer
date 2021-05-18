@@ -42,6 +42,6 @@ data class RawExercise(
 @Entity(tableName = "my_activity_table")
 @Parcelize
 data class MyActivity(
-        var date: String? = null,
-        val circuits: List<Circuit>? = null,
+        @PrimaryKey(autoGenerate = false) val date: Long,
+        val circuits: MutableList<Circuit>? = null
 ) : Parcelable
