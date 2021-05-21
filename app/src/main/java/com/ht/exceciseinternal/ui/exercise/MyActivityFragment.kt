@@ -22,7 +22,7 @@ class MyActivityFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(activity!!).get(MyActivityVM::class.java)
+        viewModel = ViewModelProvider(this).get(MyActivityVM::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -53,7 +53,7 @@ class MyActivityFragment : BaseFragment() {
     private fun setUpObservers() {
         /** circuit observer */
         viewModel.myActivityListLiveData.observe(viewLifecycleOwner) {
-            println(it?.size)
+            myActivityParentAdapter.submitList(it)
         }
     }
 }
