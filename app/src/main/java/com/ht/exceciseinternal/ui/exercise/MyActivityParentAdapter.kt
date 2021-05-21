@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ht.exceciseinternal.beans.Circuit
 import com.ht.exceciseinternal.beans.MyActivity
 import com.ht.exceciseinternal.databinding.MyActivityAdapterItemBinding
+import com.ht.exceciseinternal.databinding.MyActivityAdapterParentItemBinding
 import com.ht.exceciseinternal.widgets.BaseWC
 import com.ht.exceciseinternal.widgets.my_activity.MyActivityWC
 
 class MyActivityParentAdapter :
-        ListAdapter<MyActivity, MyActivityParentAdapter.MyActivityParentAdapterViewHolder>(
+        ListAdapter<Circuit, MyActivityParentAdapter.MyActivityParentAdapterViewHolder>(
                 DiffCallback()
         ) {
 
@@ -21,13 +22,13 @@ class MyActivityParentAdapter :
         val myActivityChildAdapter = MyActivityChildAdapter()
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<MyActivity>() {
-        override fun areContentsTheSame(oldItem: MyActivity, newItem: MyActivity) = oldItem == newItem
-        override fun areItemsTheSame(oldItem: MyActivity, newItem: MyActivity) = oldItem.circuits == newItem.circuits
+    class DiffCallback : DiffUtil.ItemCallback<Circuit>() {
+        override fun areContentsTheSame(oldItem: Circuit, newItem: Circuit) = oldItem == newItem
+        override fun areItemsTheSame(oldItem: Circuit, newItem: Circuit) = oldItem.name == newItem.name
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyActivityParentAdapterViewHolder {
-        val binding = MyActivityAdapterItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = MyActivityAdapterParentItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyActivityParentAdapterViewHolder(binding)
     }
 
@@ -35,15 +36,14 @@ class MyActivityParentAdapter :
         holder.bind(getItem(position), position)
     }
 
-    class MyActivityParentAdapterViewHolder(private val binding: MyActivityAdapterItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(myActivity: MyActivity, position: Int) {
+    class MyActivityParentAdapterViewHolder(private val binding: MyActivityAdapterParentItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(circuit: Circuit, position: Int) {
             binding.apply {
-                currentDateTv.text = myActivity.date.toString()
-                myActivityCircuitTiet.text = myActivity.circuits!![position].name
+                myActivityCircuitTiet.text = circuit.name
                 myActivityCircuitDetailRv.apply {
                     layoutManager = LinearLayoutManager(binding.root.context)
                     adapter = myActivityChildAdapter
-                    myActivityChildAdapter.submitList(myActivity.circuits[position].exerciseList)
+                    myActivityChildAdapter.submitList(circuit.exerciseList)
                 }
             }
         }
