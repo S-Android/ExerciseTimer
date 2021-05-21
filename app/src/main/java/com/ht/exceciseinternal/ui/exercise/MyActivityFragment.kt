@@ -17,7 +17,7 @@ class MyActivityFragment : BaseFragment() {
 
     private lateinit var binding: MyActivityFragmentBinding
     private lateinit var viewModel: MyActivityVM
-    private val myActivityParentAdapter = MyActivityParentAdapter()
+    private val myActivityAdapter = MyActivityAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +45,7 @@ class MyActivityFragment : BaseFragment() {
             /** recycler view */
             myActivityCircuitRv.apply {
                 layoutManager = LinearLayoutManager(activity)
-                adapter = myActivityParentAdapter
+                adapter = myActivityAdapter
             }
         }
     }
@@ -53,7 +53,7 @@ class MyActivityFragment : BaseFragment() {
     private fun setUpObservers() {
         /** circuit observer */
         viewModel.myActivityListLiveData.observe(viewLifecycleOwner) {
-            myActivityParentAdapter.submitList(it)
+            myActivityAdapter.submitList(it)
         }
     }
 }
