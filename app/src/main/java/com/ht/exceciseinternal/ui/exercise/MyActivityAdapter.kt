@@ -15,10 +15,6 @@ class MyActivityAdapter :
                 DiffCallback()
         ) {
 
-    companion object {
-        val myActivityParentAdapter = MyActivityParentAdapter()
-    }
-
     class DiffCallback : DiffUtil.ItemCallback<MyActivity>() {
         override fun areContentsTheSame(oldItem: MyActivity, newItem: MyActivity) = oldItem == newItem
         override fun areItemsTheSame(oldItem: MyActivity, newItem: MyActivity) = oldItem.circuits == newItem.circuits
@@ -33,14 +29,15 @@ class MyActivityAdapter :
         holder.bind(getItem(position), position)
     }
 
-    class MyActivityAdapterViewHolder(private val binding: MyActivityAdapterItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MyActivityAdapterViewHolder(private val binding: MyActivityAdapterItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(myActivity: MyActivity, position: Int) {
             binding.apply {
                 currentDateTv.text = getFormattedTime(myActivity.date)
+                val myActivityParentAdapter = MyActivityParentAdapter()
                 myActivityCircuitsRv.apply {
                     layoutManager = LinearLayoutManager(binding.root.context)
                     adapter = myActivityParentAdapter
-                    myActivityParentAdapter.submitList(myActivity.circuits)
+                    myActivityParentAdapter.submitList(myActivity.circuits?.toMutableList())
                 }
             }
         }

@@ -9,7 +9,7 @@ import com.ht.exceciseinternal.widgets.BaseWC
 
 class MyActivityVM(app : Application) : BaseVM(app) {
 
-    val myActivityListLiveData = MediatorLiveData<MutableList<MyActivity>>()
+    val myActivityListLiveData = MediatorLiveData<MutableList<BaseWC>>()
 
     private val interactor: MyActivityInteractor by lazy { MyActivityInteractor() }
 
@@ -20,8 +20,8 @@ class MyActivityVM(app : Application) : BaseVM(app) {
     private fun databaseObserver() {
         val myActivitiesLiveData = ExerciseDataBase.getInstance(getApplication()).exerciseDao().getMyActivities()
         myActivityListLiveData.addSource(myActivitiesLiveData) {
-//            val myActivityWCList = interactor.getMyActivityConfigList(it, this@MyActivityVM)
-            myActivityListLiveData.postValue(it.toMutableList())
+            val myActivityWCList = interactor.getMyActivityConfigList(it, this@MyActivityVM)
+            myActivityListLiveData.postValue(myActivityWCList)
         }
     }
 }
