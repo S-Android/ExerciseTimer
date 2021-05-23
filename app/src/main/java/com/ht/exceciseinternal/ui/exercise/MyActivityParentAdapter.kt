@@ -18,10 +18,6 @@ class MyActivityParentAdapter :
                 DiffCallback()
         ) {
 
-    companion object {
-        val myActivityChildAdapter = MyActivityChildAdapter()
-    }
-
     class DiffCallback : DiffUtil.ItemCallback<Circuit>() {
         override fun areContentsTheSame(oldItem: Circuit, newItem: Circuit) = oldItem == newItem
         override fun areItemsTheSame(oldItem: Circuit, newItem: Circuit) = oldItem.name == newItem.name
@@ -36,14 +32,15 @@ class MyActivityParentAdapter :
         holder.bind(getItem(position), position)
     }
 
-    class MyActivityParentAdapterViewHolder(private val binding: MyActivityAdapterParentItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MyActivityParentAdapterViewHolder(private val binding: MyActivityAdapterParentItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(circuit: Circuit, position: Int) {
             binding.apply {
                 myActivityCircuitTiet.text = circuit.name
+                val myActivityChildAdapter = MyActivityChildAdapter()
                 myActivityCircuitDetailRv.apply {
                     layoutManager = LinearLayoutManager(binding.root.context)
                     adapter = myActivityChildAdapter
-                    myActivityChildAdapter.submitList(circuit.exerciseList)
+                    myActivityChildAdapter.submitList(circuit.exerciseList?.toMutableList())
                 }
             }
         }
